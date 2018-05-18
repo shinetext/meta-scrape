@@ -20,7 +20,7 @@ module.exports.scrape = (event, context, callback) => {
       return response.text();
     })
     .then(body => {
-      let result = { longUrl: originalUrl };
+      let result = { resolvedUrl: originalUrl };
 
       const $ = cheerio.load(body);
       const $title = $('title');
