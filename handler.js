@@ -1,7 +1,7 @@
 'use strict';
 
 const cheerio = require('cheerio');
-const fetch = require('node-fetch');
+const got = require('got');
 
 module.exports.scrape = (event, context, callback) => {
   if (
@@ -14,12 +14,13 @@ module.exports.scrape = (event, context, callback) => {
   let originalUrl;
   console.log(`Fetching: ${event.queryStringParameters.url}`);
 
-  fetch(event.queryStringParameters.url)
-    .then(response => {
+  got
+    .get(event.queryStringParameters.url)
+    .then((response) => {
       originalUrl = response.url;
-      return response.text();
+      return response.body;
     })
-    .then(body => {
+    .then((body) => {
       let result = { resolvedUrl: originalUrl };
 
       const $ = cheerio.load(body);
@@ -46,7 +47,7 @@ module.exports.scrape = (event, context, callback) => {
 
       sendResponse(200, result);
     })
-    .catch(err => {
+    .catch((err) => {
       console.error(err);
       sendResponse(500);
     });

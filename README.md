@@ -6,18 +6,24 @@ This is primarily used by Shine's [spotlight](https://github.com/shinetext/spotl
 
 ## Setup
 
-Coming soon.
+```
+$ npm install
+```
 
 ## Dev
 
-Coming soon.
+To test locally, edit the event.json file with the URL you want to test. Then run the function from the command line:
+
+```
+$ npx serverless invoke local --function scrape --path event.json
+```
 
 ## Deploy
 
 Deploys can be done via the Serverless CLI. Example:
 
 ```
-$ serverless deploy -s prod -r us-east-1 -v
+$ npx serverless deploy -s prod -r us-east-1 -v
 ```
 
 As an extra boost to performance, we enable [API Gateway caching](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-caching.html). After each deploy, it's worth verifying that caching is still enabled for the resource and that `url` is set as a cache key.

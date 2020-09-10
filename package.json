@@ -1,6 +1,9 @@
 {
   "dependencies": {
     "cheerio": "^0.22.0",
-    "node-fetch": "^1.6.3"
+    "got": "^11.6.2"
+  },
+  "devDependencies": {
+    "serverless": "^1.83.0"
   }
 }
