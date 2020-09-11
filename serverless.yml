@@ -2,9 +2,7 @@ service: meta-scrape
 
 provider:
   name: aws
-  runtime: nodejs8.10
-  profile: serverless-admin
-
+  runtime: nodejs10.x
 functions:
   scrape:
     handler: handler.scrape
