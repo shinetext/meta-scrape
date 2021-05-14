@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 
-const cheerio = require('cheerio');
-const got = require('got');
+const cheerio = require("cheerio");
+const got = require("got");
 
 module.exports.scrape = (event, context, callback) => {
   if (
@@ -9,7 +9,7 @@ module.exports.scrape = (event, context, callback) => {
     !event.queryStringParameters ||
     !event.queryStringParameters.url
   ) {
-    return sendResponse(400, 'Missing `url` param');
+    return sendResponse(400, "Missing `url` param");
   }
   let originalUrl;
   console.log(`Fetching: ${event.queryStringParameters.url}`);
@@ -22,28 +22,28 @@ module.exports.scrape = (event, context, callback) => {
     })
     .then((body) => {
       let result = { resolvedUrl: originalUrl };
-
       const $ = cheerio.load(body);
-      const $title = $('title');
-      if ($title) {
+      const $title = $("title");
+
+      if ($title && $title[0]) {
         result.title = $title[0].children[0].data;
       }
 
-      const $meta = $('meta');
+      const $meta = $("meta");
       for (let i = 0; i < $meta.length; i++) {
         const name = $meta[i].attribs.property || $meta[i].attribs.name;
         const value = $meta[i].attribs.content;
 
-        if (name === 'og:title') {
+        if (name === "og:title") {
           result.title = value;
-        } else if (name === 'og:description') {
+        } else if (name === "og:description") {
           result.description = value;
-        } else if (name === 'og:image') {
+        } else if (name === "og:image") {
           result.image = value;
         }
       }
 
-      console.log('Result:', result);
+      console.log("Result:", result);
 
       sendResponse(200, result);
     })
@@ -60,16 +60,16 @@ module.exports.scrape = (event, context, callback) => {
   //
   function sendResponse(status, body) {
     let resBody = {};
-    if (typeof body === 'object') {
+    if (typeof body === "object") {
       resBody = body;
-    } else if (typeof body === 'string') {
+    } else if (typeof body === "string") {
       resBody = { message: body };
     }
 
     const response = {
       statusCode: status,
       headers: {
-        'Access-Control-Allow-Origin': '*',
+        "Access-Control-Allow-Origin": "*",
       },
       body: JSON.stringify(resBody),
     };
